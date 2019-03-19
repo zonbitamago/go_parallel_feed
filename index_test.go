@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"reflect"
+	"sort"
 	"testing"
 
 	"github.com/mmcdole/gofeed"
@@ -16,7 +17,7 @@ var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 	Handler(w, r)
 })
 
-func callIndexHandler(t *testing.T, jsonStr string) interface{} {
+func callIndexHandler(t *testing.T, jsonStr string) FeedResults {
 	ts := httptest.NewServer(handler)
 	defer ts.Close()
 
@@ -40,7 +41,7 @@ func TestIndexHandler(t *testing.T) {
 		got := callIndexHandler(t, data)
 
 		var correctURLFeed gofeed.Feed
-		json.Unmarshal([]byte(sampleFeedJson), &correctURLFeed)
+		json.Unmarshal([]byte(sampleFeedJSON), &correctURLFeed)
 
 		want := FeedResults{
 			Results: []FeedResult{
@@ -96,15 +97,19 @@ func TestIndexHandler(t *testing.T) {
 			},
 		}
 
+		// goroutineで順序が保証されないので、比較のために一旦ソートを行う。
+		sort.SliceStable((got.Results), func(i, j int) bool { return got.Results[i].URL.URL < got.Results[j].URL.URL })
+
 		if !reflect.DeepEqual(want, got) {
 			testutils.ErrorfHandler(t, want, got)
 		}
+
 	})
 }
 
 func TestParse(t *testing.T) {
 	var correctURLFeed gofeed.Feed
-	json.Unmarshal([]byte(sampleFeedJson), &correctURLFeed)
+	json.Unmarshal([]byte(sampleFeedJSON), &correctURLFeed)
 
 	test := []struct {
 		name       string
@@ -141,7 +146,7 @@ func TestParse(t *testing.T) {
 	}
 }
 
-var sampleFeedJson = `
+var sampleFeedJSON = `
 {
 	"title": "Sample Feed - Favorite RSS Related Software & Resources",
 	"description": "Take a look at some of FeedForAll's favorite software and resources for learning more about RSS.",

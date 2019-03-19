@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"sync"
 
 	"github.com/mmcdole/gofeed"
 )
@@ -41,15 +42,32 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 	var feedResult []FeedResult
 
-	for _, url := range requestJSON.Urls {
-		feed, result := FeedParse(url.URL)
+	// for _, url := range requestJSON.Urls {
+	// 	feed, result := FeedParse(url.URL)
 
-		feedResult = append(feedResult, FeedResult{
-			Result: result,
-			URL:    URL{url.URL},
-			Feed:   feed,
-		})
+	// 	feedResult = append(feedResult, FeedResult{
+	// 		Result: result,
+	// 		URL:    URL{url.URL},
+	// 		Feed:   feed,
+	// 	})
+	// }
+
+	var wg sync.WaitGroup
+	for _, url := range requestJSON.Urls {
+		wg.Add(1)
+		go func(url URL) {
+			feed, result := FeedParse(url.URL)
+
+			feedResult = append(feedResult, FeedResult{
+				Result: result,
+				URL:    URL{url.URL},
+				Feed:   feed,
+			})
+
+			wg.Done()
+		}(url)
 	}
+	wg.Wait()
 
 	feedResults := FeedResults{feedResult}
 
