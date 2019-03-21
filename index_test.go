@@ -47,7 +47,7 @@ func TestIndexHandler(t *testing.T) {
 			Results: []FeedResult{
 				FeedResult{
 					Result: true,
-					URL:    URL{URL: "https://feedforall.com/sample-feed.xml"},
+					URL:    "https://feedforall.com/sample-feed.xml",
 					Feed:   &correctURLFeed,
 				},
 			},
@@ -68,7 +68,7 @@ func TestIndexHandler(t *testing.T) {
 			Results: []FeedResult{
 				FeedResult{
 					Result: false,
-					URL:    URL{URL: "a"},
+					URL:    "a",
 				},
 			},
 		}
@@ -88,17 +88,17 @@ func TestIndexHandler(t *testing.T) {
 			Results: []FeedResult{
 				FeedResult{
 					Result: false,
-					URL:    URL{URL: "a"},
+					URL:    "a",
 				},
 				{
 					Result: false,
-					URL:    URL{URL: "b"},
+					URL:    "b",
 				},
 			},
 		}
 
 		// goroutineで順序が保証されないので、比較のために一旦ソートを行う。
-		sort.SliceStable((got.Results), func(i, j int) bool { return got.Results[i].URL.URL < got.Results[j].URL.URL })
+		sort.SliceStable((got.Results), func(i, j int) bool { return got.Results[i].URL < got.Results[j].URL })
 
 		if !reflect.DeepEqual(want, got) {
 			testutils.ErrorfHandler(t, want, got)

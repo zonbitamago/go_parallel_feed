@@ -16,8 +16,8 @@ type FeedResults struct {
 
 // FeedResult 個別Feed結果
 type FeedResult struct {
-	Result bool `json:"result"`
-	URL    URL
+	Result bool         `json:"result"`
+	URL    string       `json:"url"`
 	Feed   *gofeed.Feed `json:"feed"`
 }
 
@@ -60,7 +60,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 			feedResult = append(feedResult, FeedResult{
 				Result: result,
-				URL:    URL{url.URL},
+				URL:    url.URL,
 				Feed:   feed,
 			})
 
