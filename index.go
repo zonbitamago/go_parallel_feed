@@ -7,6 +7,7 @@ import (
 	"sync"
 
 	"github.com/mmcdole/gofeed"
+	parse "github.com/zonbitamago/go_parallel_feed/parse"
 )
 
 // FeedResults フィード結果json
@@ -56,7 +57,7 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	for _, url := range requestJSON.Urls {
 		wg.Add(1)
 		go func(url URL) {
-			feed, result := FeedParse(url.URL)
+			feed, result := parse.FeedParse(url.URL)
 
 			feedResult = append(feedResult, FeedResult{
 				Result: result,
