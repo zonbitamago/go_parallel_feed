@@ -107,45 +107,6 @@ func TestIndexHandler(t *testing.T) {
 	})
 }
 
-// func TestParse(t *testing.T) {
-// 	var correctURLFeed gofeed.Feed
-// 	json.Unmarshal([]byte(sampleFeedJSON), &correctURLFeed)
-
-// 	test := []struct {
-// 		name       string
-// 		url        string
-// 		wantFeed   *gofeed.Feed
-// 		wantResult bool
-// 	}{
-// 		{
-// 			"correct_url",
-// 			"https://feedforall.com/sample-feed.xml",
-// 			&correctURLFeed,
-// 			true,
-// 		},
-// 		{
-// 			"incorrect_url",
-// 			"https://google.com",
-// 			nil,
-// 			false,
-// 		},
-// 	}
-
-// 	for _, tt := range test {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			if gotFeed, gotResult := FeedParse(tt.url); gotResult != tt.wantResult {
-// 				testutils.ErrorfHandler(t, tt.wantResult, gotResult)
-// 			} else {
-// 				gotFeedByte, _ := json.Marshal(gotFeed)
-// 				wantFeedByte, _ := json.Marshal(tt.wantFeed)
-// 				if string(gotFeedByte) != string(wantFeedByte) {
-// 					testutils.ErrorfHandler(t, tt.wantFeed, gotFeed)
-// 				}
-// 			}
-// 		})
-// 	}
-// }
-
 var sampleFeedJSON = `
 {
 	"title": "Sample Feed - Favorite RSS Related Software & Resources",

@@ -43,16 +43,6 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 
 	var feedResult []FeedResult
 
-	// for _, url := range requestJSON.Urls {
-	// 	feed, result := FeedParse(url.URL)
-
-	// 	feedResult = append(feedResult, FeedResult{
-	// 		Result: result,
-	// 		URL:    URL{url.URL},
-	// 		Feed:   feed,
-	// 	})
-	// }
-
 	var wg sync.WaitGroup
 	for _, url := range requestJSON.Urls {
 		wg.Add(1)
@@ -80,14 +70,3 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	}
 
 }
-
-// // FeedParse feed情報取得処理
-// func FeedParse(feedURL string) (*gofeed.Feed, bool) {
-// 	fp := gofeed.NewParser()
-// 	feed, err := fp.ParseURL(feedURL)
-// 	result := true
-// 	if err != nil {
-// 		result = false
-// 	}
-// 	return feed, result
-// }
