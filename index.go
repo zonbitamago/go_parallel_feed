@@ -68,6 +68,9 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	feedResults := FeedResults{feedResult}
 
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Access-Control-Allow-Headers", "*")
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set( "Access-Control-Allow-Methods","GET, POST, PUT, DELETE, OPTIONS" )
 	w.WriteHeader(http.StatusOK)
 
 	if err := json.NewEncoder(w).Encode(feedResults); err != nil {
