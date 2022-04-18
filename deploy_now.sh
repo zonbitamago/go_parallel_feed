@@ -1,3 +1,4 @@
 #!/bin/sh
 
-now rm go-parallel-feed -y && now && now alias
+# now rm go-parallel-feed -y && now && now alias
+vercel
