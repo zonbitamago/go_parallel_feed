@@ -1,7 +1,8 @@
-package main
+package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"sync"
@@ -47,7 +48,10 @@ func Handler(w http.ResponseWriter, req *http.Request) {
 	for _, url := range requestJSON.Urls {
 		wg.Add(1)
 		go func(url URL) {
-			feed, result := parse.FeedParse(url.URL)
+			feed, result, err := parse.FeedParse(url.URL)
+			if err != nil {
+				fmt.Println(err)
+			}
 
 			feedResult = append(feedResult, FeedResult{
 				Result: result,

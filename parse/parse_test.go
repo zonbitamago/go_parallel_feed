@@ -34,7 +34,7 @@ func TestParse(t *testing.T) {
 
 	for _, tt := range test {
 		t.Run(tt.name, func(t *testing.T) {
-			if gotFeed, gotResult := FeedParse(tt.url); gotResult != tt.wantResult {
+			if gotFeed, gotResult,_ := FeedParse(tt.url); gotResult != tt.wantResult {
 				testutils.ErrorfHandler(t, tt.wantResult, gotResult)
 			} else {
 				gotFeedByte, _ := json.Marshal(gotFeed)
